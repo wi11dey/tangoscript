@@ -204,7 +204,7 @@
 		 }
 	     ];
 	     for (var i = start - 1; i < stop; i++) {
-		 if (i < 0 || i > steps.length) {
+		 if (i < 0 || i >= steps.length) {
 		     throw new TangoError(`No such step in the salida basica: ${i + 1}`);
 		 }
 		 execute_step(steps[i]);
