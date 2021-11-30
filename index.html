@@ -134,10 +134,10 @@
 
 	 function execute_step({ delta, leaderStepWithLeft, followerStepWithLeft, leaderAnnotation, followerAnnotation }) {
 	     if (leaderStepWithLeft == leaderLeft) {
-		 throw new TangoError(`Leader on wrong foot after ${steps} steps (supposed to be on ${!leaderStepWithLeft ? "left" : "right"}, but is on ${leaderLeft ? "left" : "right"})`);
+		 throw new TangoError(`Leader on wrong foot after (${steps}) steps (supposed to be on ${!leaderStepWithLeft ? "left" : "right"}, but is on ${leaderLeft ? "left" : "right"})`);
 	     }
 	     if (followerStepWithLeft == followerLeft) {
-		 throw new TangoError(`Follower on wrong foot after ${steps} steps (supposed to be on ${!followerStepWithLeft ? "left" : "right"}, but is on ${followerLeft ? "left" : "right"})`);
+		 throw new TangoError(`Follower on wrong foot after (${steps}) steps (supposed to be on ${!followerStepWithLeft ? "left" : "right"}, but is on ${followerLeft ? "left" : "right"})`);
 	     }
 	     floorCtx.beginPath();
 	     floorCtx.moveTo(...pos);
@@ -242,6 +242,7 @@
 	     leaderLeft = true;
 	     followerLeft = false;
 	     pos = [325, 250];
+	     steps = 0;
 	     floorCtx.clearRect(0, 0, floorCanvas.width, floorCanvas.height);
 	     draw_couple();
 	     try {
