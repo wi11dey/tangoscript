@@ -246,7 +246,7 @@
 	     floorCtx.clearRect(0, 0, floorCanvas.width, floorCanvas.height);
 	     draw_couple();
 	     try {
-		 eval(programArea.value);
+		 eval(programArea.value.replace(/repeat (\d+)/gm, "for (var i = 0; i < $1; i++)"));
 	     } catch (e) {
 		 errorBox.style.display = "flex";
 		 errorText.innerText = e.toString();
