@@ -66,6 +66,9 @@
 	    <p class="text-secondary">
 		by Will Dey</span>, for Comparative Literature 120
 	    </p>
+	    <p>
+		<a href="tutorial.html">tutorial</a> | <a href="youtube">demo video</a>
+	    </p>
 	</div>
 
 	<textarea id="program" name="program" rows="8" cols="80"></textarea>
@@ -101,7 +104,9 @@
 	     leaderLeft = true,
 	     followerLeft = false,
 	     pos = [325, 250],
-	     steps = 0;
+	     steps = 0,
+	     deltaAngle = 0,
+	     angle = 0;
 
 	 floorCtx.setLineDash([5, 3]);
 	 floorCtx.strokeStyle = "black";
@@ -133,6 +138,11 @@
 	 }
 
 	 function execute_step({ delta, leaderStepWithLeft, followerStepWithLeft, leaderAnnotation, followerAnnotation }) {
+	     angle += deltaAngle;
+	     r = Math.sqrt(delta[0] * delta[0] + delta[1] * delta[1]);
+	     theta = Math.atan2(-delta[0], delta[1]) + angle * Math.PI / 180;
+	     x = -r * Math.sin(theta);
+	     y =  r * Math.cos(theta);
 	     if (leaderStepWithLeft == leaderLeft) {
 		 throw new TangoError(`Leader on wrong foot after (${steps}) steps (supposed to be on ${!leaderStepWithLeft ? "left" : "right"}, but is on ${leaderLeft ? "left" : "right"})`);
 	     }
@@ -142,8 +152,8 @@
 	     floorCtx.beginPath();
 	     floorCtx.moveTo(...pos);
 	     oldPos = [...pos];
-	     pos[0] += delta[0];
-	     pos[1] += delta[1];
+	     pos[0] += x;
+	     pos[1] += y;
 	     floorCtx.lineTo(...pos);
 	     floorCtx.stroke();
 	     draw_couple(oldPos);
@@ -236,6 +246,10 @@
 	 function rebote() {
 	 }
 
+	 function set_arc(angle) {
+	     deltaAngle = angle;
+	 }
+
 	 function repaint() {
 	     errorBox.style.setProperty("display", "none", "important");
 	     downloadButton.setAttribute("href", "data:text/plain;charset=utf-8," + encodeURIComponent(programArea.value));
@@ -243,6 +257,8 @@
 	     followerLeft = false;
 	     pos = [325, 250];
 	     steps = 0;
+	     deltaAngle = 0;
+	     angle = 0;
 	     floorCtx.clearRect(0, 0, floorCanvas.width, floorCanvas.height);
 	     draw_couple();
 	     try {
